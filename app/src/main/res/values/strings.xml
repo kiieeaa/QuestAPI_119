@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Praktikum 12</string>
+    <string name="entry_siswa">Tambah Siswa</string>
+    <string name="edit_siswa">Edit Siswa</string>
+    <string name="detail_siswa">Detail Siswa</string>
+    <string name="back">Kembali</string>
+    <string name="no">Tidak</string>
+    <string name="yes">Ya</string>
+    <string name="retry">Coba Lagi</string>
+
+    <string name="nama">Nama Siswa*</string>
+    <string name="alamat">Alamat Siswa*</string>
+    <string name="telpon">Telpon Siswa*</string>
+    <string name="nim">NIM Siswa*</string> <string name="nama1">Nama Siswa :</string>
+    <string name="alamat1">Alamat Siswa :</string>
+    <string name="telpon1">Telpon Siswa :</string>
+    <string name="nim1">NIM Siswa :</string> <string name="loading">Memuat Data...</string>
+    <string name="loading_failed">Gagal memuat data. Periksa koneksi internet.</string>
+
+    <string name="btn_submit">Simpan</string> <string name="required_field">Wajib diisi untuk melanjutkan</string> <string name="delete">Hapus</string>
+    <string name="update">Edit</string>
+    <string name="deskripsi_no_item">Tidak ada data Siswa. Tap + untuk menambah data</string>
+</resources>
