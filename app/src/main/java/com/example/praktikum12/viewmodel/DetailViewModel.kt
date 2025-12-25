@@ -10,32 +10,47 @@ import com.example.praktikum12.modeldata.DataSiswa
 import com.example.praktikum12.repositori.RepositoryDataSiswa
 import com.example.praktikum12.uicontroller.route.DestinasiDetail
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import java.io.IOException
+
+sealed interface StatusUIDetail {
+    data class Success(val satuSiswa: DataSiswa) : StatusUIDetail
+    object Error : StatusUIDetail
+    object Loading : StatusUIDetail
+}
 
 class DetailViewModel(
     savedStateHandle: SavedStateHandle,
     private val repositoryDataSiswa: RepositoryDataSiswa
 ) : ViewModel() {
-    private val siswaId: Int = checkNotNull(savedStateHandle[DestinasiDetail.siswaIdArg])
+    // FIX: Gunakan siswaIdArg agar sesuai dengan DestinasiDetail
+    private val idSiswa: Int = checkNotNull(savedStateHandle[DestinasiDetail.siswaIdArg])
 
-    var uiState by mutableStateOf(DetailUiState())
+    var statusUIDetail: StatusUIDetail by mutableStateOf(StatusUIDetail.Loading)
         private set
 
     init {
-        getSiswaById()
+        getSatuSiswa()
     }
 
-    private fun getSiswaById() {
+    fun getSatuSiswa() {
         viewModelScope.launch {
-            val siswa = repositoryDataSiswa.getSiswaById(siswaId)
-            uiState = DetailUiState(detailSiswa = siswa)
+            statusUIDetail = StatusUIDetail.Loading
+            statusUIDetail = try {
+                StatusUIDetail.Success(repositoryDataSiswa.getSatuSiswa(idSiswa))
+            } catch (e: IOException) {
+                StatusUIDetail.Error
+            } catch (e: HttpException) {
+                StatusUIDetail.Error
+            }
         }
     }
 
-    suspend fun deleteSiswa() {
-        repositoryDataSiswa.deleteSiswa(siswaId)
+    suspend fun hapusSatuSiswa() {
+        try {
+            repositoryDataSiswa.hapusSatuSiswa(idSiswa)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 }
-
-data class DetailUiState(
-    val detailSiswa: DataSiswa = DataSiswa(nama = "", alamat = "", telpon = "", nim = "")
-)
