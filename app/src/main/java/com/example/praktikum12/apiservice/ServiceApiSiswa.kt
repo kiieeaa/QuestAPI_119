@@ -14,3 +14,6 @@ interface ServiceApiSiswa {
 
     @GET("bacasiswa.php")
     suspend fun getSiswa(): List<DataSiswa>
+
+    @POST("tambahsiswa.php")
+    suspend fun postSiswa(@Body dataSiswa: DataSiswa): Response<Void>
