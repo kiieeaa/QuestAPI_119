@@ -10,19 +10,7 @@ import retrofit2.http.PUT
 import retrofit2.http.Query
 
 interface ServiceApiSiswa {
+
+
     @GET("bacasiswa.php")
-    suspend fun getDataSiswa(): List<DataSiswa>
-
-    @POST("tambahsiswa.php")
-    suspend fun postDataSiswa(@Body dataSiswa: DataSiswa): Response<Void>
-
-    // Tambahkan di dalam interface ServiceApiSiswa
-    @GET("bacasatu.php") // sesuaikan nama file php di server
-    suspend fun getSiswaById(@Query("id") id: Int): DataSiswa
-
-    @PUT("updatesiswa.php")
-    suspend fun updateSiswa(@Query("id") id: Int, @Body dataSiswa: DataSiswa): Response<Void>
-
-    @DELETE("hapussiswa.php")
-    suspend fun deleteSiswa(@Query("id") id: Int): Response<Void>
-}
+    suspend fun getSiswa(): List<DataSiswa>
