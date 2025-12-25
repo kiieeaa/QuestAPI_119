@@ -1,19 +1,18 @@
 package com.example.praktikum12.view
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Refresh // IMPORT INI WAJIB ADA
+import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect // Tambahan import
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -22,8 +21,6 @@ import com.example.praktikum12.modeldata.DataSiswa
 import com.example.praktikum12.viewmodel.HomeViewModel
 import com.example.praktikum12.viewmodel.StatusUiSiswa
 import com.example.praktikum12.viewmodel.provider.PenyediaViewModel
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import com.example.praktikum12.uicontroller.route.DestinasiHome
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,21 +32,20 @@ fun HomeScreen(
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
+    // --- TAMBAHAN: Refresh otomatis saat masuk halaman Home ---
+    LaunchedEffect(Unit) {
+        viewModel.loadSiswa()
+    }
+    // ---------------------------------------------------------
+
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            CenterAlignedTopAppBar(
-                title = { Text(stringResource(DestinasiHome.titleRes)) },
+            SiswaTopAppBar(
+                title = stringResource(R.string.app_name),
+                canNavigateBack = false,
                 scrollBehavior = scrollBehavior,
-                actions = {
-                    // Tombol Refresh di pojok kanan atas
-                    IconButton(onClick = { viewModel.loadSiswa() }) {
-                        Icon(
-                            imageVector = Icons.Default.Refresh,
-                            contentDescription = "Refresh Data"
-                        )
-                    }
-                }
+                onRefresh = { viewModel.loadSiswa() }
             )
         },
         floatingActionButton = {
@@ -63,89 +59,85 @@ fun HomeScreen(
                     contentDescription = stringResource(R.string.entry_siswa)
                 )
             }
-        }
+        },
     ) { innerPadding ->
         HomeStatus(
-            statusUiSiswa = viewModel.listSiswa,
-            retryAction = { viewModel.loadSiswa() },
+            homeUiState = viewModel.listSiswa,
+            retryAction = viewModel::loadSiswa,
             modifier = Modifier.padding(innerPadding),
-            onDetailClick = onDetailClick
+            onDetailClick = onDetailClick,
         )
     }
 }
 
 @Composable
 fun HomeStatus(
-    statusUiSiswa: StatusUiSiswa,
+    homeUiState: StatusUiSiswa,
     retryAction: () -> Unit,
     modifier: Modifier = Modifier,
     onDetailClick: (Int) -> Unit
 ) {
-    when (statusUiSiswa) {
-        is StatusUiSiswa.Loading -> OnLoading(modifier = modifier.fillMaxSize())
+    when (homeUiState) {
+        is StatusUiSiswa.Loading -> {
+            Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
+            }
+        }
         is StatusUiSiswa.Success -> {
-            if (statusUiSiswa.siswa.isEmpty()) {
+            if (homeUiState.siswa.isEmpty()) {
                 Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(text = "Tidak ada data siswa")
-                        Button(onClick = retryAction, modifier = Modifier.padding(top = 8.dp)) {
-                            Text("Refresh")
-                        }
-                    }
+                    Text(text = "Tidak ada data")
                 }
             } else {
-                ListSiswa(
-                    listSiswa = statusUiSiswa.siswa,
+                SiswaLayout(
+                    dataSiswa = homeUiState.siswa,
                     modifier = modifier.fillMaxWidth(),
-                    onItemClick = { onDetailClick(it.id) }
+                    onDetailClick = { onDetailClick(it.id) },
                 )
             }
         }
-        is StatusUiSiswa.Error -> OnError(retryAction, modifier = modifier.fillMaxSize())
-    }
-}
-
-@Composable
-fun OnLoading(modifier: Modifier = Modifier) {
-    Box(modifier = modifier, contentAlignment = Alignment.Center) {
-        CircularProgressIndicator() // Mengganti image loading agar lebih ringan
-    }
-}
-
-@Composable
-fun OnError(retryAction: () -> Unit, modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(text = stringResource(R.string.loading_failed), modifier = Modifier.padding(16.dp))
-        Button(onClick = retryAction) {
-            Text(stringResource(R.string.retry))
+        is StatusUiSiswa.Error -> {
+            Column(
+                modifier = modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(text = stringResource(R.string.loading_failed))
+                Button(
+                    onClick = retryAction,
+                    modifier = Modifier.padding(top = 16.dp)
+                ) {
+                    Text(stringResource(R.string.retry))
+                }
+            }
         }
     }
 }
 
 @Composable
-fun ListSiswa(
-    listSiswa: List<DataSiswa>,
+fun SiswaLayout(
+    dataSiswa: List<DataSiswa>,
     modifier: Modifier = Modifier,
-    onItemClick: (DataSiswa) -> Unit
+    onDetailClick: (DataSiswa) -> Unit
 ) {
-    LazyColumn(modifier = modifier) {
-        items(items = listSiswa, key = { it.id }) { siswa ->
-            CardSiswa(
+    LazyColumn(
+        modifier = modifier,
+        contentPadding = PaddingValues(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        items(dataSiswa) { siswa ->
+            SiswaCard(
                 siswa = siswa,
                 modifier = Modifier
-                    .padding(8.dp)
-                    .clickable { onItemClick(siswa) }
+                    .fillMaxWidth()
+                    .clickable { onDetailClick(siswa) }
             )
         }
     }
 }
 
 @Composable
-fun CardSiswa(
+fun SiswaCard(
     siswa: DataSiswa,
     modifier: Modifier = Modifier
 ) {
@@ -158,26 +150,25 @@ fun CardSiswa(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
                     text = siswa.nama,
-                    style = MaterialTheme.typography.titleLarge,
+                    style = MaterialTheme.typography.titleLarge
                 )
                 Spacer(Modifier.weight(1f))
+                Icon(
+                    imageVector = Icons.Default.Phone,
+                    contentDescription = null
+                )
                 Text(
-                    text = siswa.nim,
+                    text = siswa.telpon,
                     style = MaterialTheme.typography.titleMedium
                 )
             }
             Text(
                 text = siswa.alamat,
-                style = MaterialTheme.typography.bodyMedium
-            )
-            Text(
-                text = siswa.telpon,
-                style = MaterialTheme.typography.bodySmall
+                style = MaterialTheme.typography.titleMedium
             )
         }
     }
