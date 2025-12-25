@@ -11,13 +11,20 @@
     <string name="nama">Nama Siswa*</string>
     <string name="alamat">Alamat Siswa*</string>
     <string name="telpon">Telpon Siswa*</string>
-    <string name="nim">NIM Siswa*</string> <string name="nama1">Nama Siswa :</string>
+    <string name="nim">NIM Siswa*</string>
+    <string name="nama1">Nama Siswa :</string>
     <string name="alamat1">Alamat Siswa :</string>
     <string name="telpon1">Telpon Siswa :</string>
-    <string name="nim1">NIM Siswa :</string> <string name="loading">Memuat Data...</string>
+    <string name="nim1">NIM Siswa :</string>
+    <string name="loading">Memuat Data...</string>
     <string name="loading_failed">Gagal memuat data. Periksa koneksi internet.</string>
 
-    <string name="btn_submit">Simpan</string> <string name="required_field">Wajib diisi untuk melanjutkan</string> <string name="delete">Hapus</string>
+    <string name="btn_submit">Simpan</string>
+    <string name="required_field">Wajib diisi untuk melanjutkan</string>
+    <string name="delete">Hapus</string>
     <string name="update">Edit</string>
     <string name="deskripsi_no_item">Tidak ada data Siswa. Tap + untuk menambah data</string>
+
+    <string name="attention">Perhatian</string>
+    <string name="delete_confirmation">Yakin ingin menghapus data ini?</string>
 </resources>
