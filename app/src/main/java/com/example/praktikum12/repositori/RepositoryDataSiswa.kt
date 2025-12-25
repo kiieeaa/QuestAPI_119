@@ -7,18 +7,24 @@ import retrofit2.Response
 interface RepositoryDataSiswa {
     suspend fun getDataSiswa(): List<DataSiswa>
     suspend fun postDataSiswa(dataSiswa: DataSiswa): Response<Void>
-    suspend fun getSiswaById(id: Int): DataSiswa
-    suspend fun updateSiswa(id: Int, dataSiswa: DataSiswa): Response<Void>
-    suspend fun deleteSiswa(id: Int): Response<Void>
+    suspend fun getSatuSiswa(id: Int): DataSiswa
+    suspend fun editSatuSiswa(id: Int, dataSiswa: DataSiswa): Response<Void>
+    suspend fun hapusSatuSiswa(id: Int): Response<Void>
 }
 
-// Pastikan class ini ada di bawah interface
 class JaringanRepositoryDataSiswa(
-    private val apiSiswa: ServiceApiSiswa
+    private val serviceApiSiswa: ServiceApiSiswa
 ) : RepositoryDataSiswa {
-    override suspend fun getDataSiswa(): List<DataSiswa> = apiSiswa.getDataSiswa()
-    override suspend fun postDataSiswa(dataSiswa: DataSiswa): Response<Void> = apiSiswa.postDataSiswa(dataSiswa)
-    override suspend fun getSiswaById(id: Int): DataSiswa = apiSiswa.getSiswaById(id)
-    override suspend fun updateSiswa(id: Int, dataSiswa: DataSiswa): Response<Void> = apiSiswa.updateSiswa(id, dataSiswa)
-    override suspend fun deleteSiswa(id: Int): Response<Void> = apiSiswa.deleteSiswa(id)
+    override suspend fun getDataSiswa(): List<DataSiswa> = serviceApiSiswa.getSiswa()
+
+    override suspend fun postDataSiswa(dataSiswa: DataSiswa): Response<Void> =
+        serviceApiSiswa.postSiswa(dataSiswa)
+
+    override suspend fun getSatuSiswa(id: Int): DataSiswa = serviceApiSiswa.getSatuSiswa(id)
+
+    override suspend fun editSatuSiswa(id: Int, dataSiswa: DataSiswa): Response<Void> =
+        serviceApiSiswa.editSatuSiswa(id, dataSiswa)
+
+    override suspend fun hapusSatuSiswa(id: Int): Response<Void> =
+        serviceApiSiswa.hapusSatuSiswa(id)
 }
