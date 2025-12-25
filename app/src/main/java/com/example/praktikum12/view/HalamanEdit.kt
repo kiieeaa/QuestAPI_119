@@ -34,11 +34,13 @@ fun EditScreen(
         modifier = modifier
     ) { innerPadding ->
         EntrySiswaBody(
-            uiStateSiswa = viewModel.siswaUiState,
+            // PERBAIKAN: Ganti siswaUiState menjadi uiStateSiswa
+            uiStateSiswa = viewModel.uiStateSiswa,
             onSiswaValueChange = viewModel::updateUiState,
             onSaveClick = {
                 coroutineScope.launch {
-                    viewModel.updateSiswa()
+                    // PERBAIKAN: Ganti updateSiswa() menjadi editSatuSiswa()
+                    viewModel.editSatuSiswa()
                     navigateBack()
                 }
             },
