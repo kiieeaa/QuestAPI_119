@@ -14,7 +14,7 @@ interface ContainerApp {
 }
 
 class DefaultContainerApp : ContainerApp {
-    private val baseurl = "http://10.0.2.2:/pertemuan12/" // laragon
+    private val baseurl = "http://10.0.2.2/pertemuan12/" // laragon
 
     val logging = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
