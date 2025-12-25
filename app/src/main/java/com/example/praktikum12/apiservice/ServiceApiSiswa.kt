@@ -17,3 +17,6 @@ interface ServiceApiSiswa {
 
     @POST("tambahsiswa.php")
     suspend fun postSiswa(@Body dataSiswa: DataSiswa): Response<Void>
+
+    @GET("baca1Teman.php")
+    suspend fun getSatuSiswa(@Query("id") id: Int): DataSiswa
