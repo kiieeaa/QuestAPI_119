@@ -1,15 +1,16 @@
-halaman utama
+<img width="749" height="1269" alt="Screenshot 2025-12-25 170257" src="https://github.com/user-attachments/assets/aa9e74b5-2e56-44de-9563-1c9c333f0b9d" />
 
-<img width="523" height="1045" alt="Screenshot 2025-12-18 195615" src="https://github.com/user-attachments/assets/28498df4-aa1c-450b-a319-de23a77deeab" />
 
-halaman tambah
+<img width="737" height="1270" alt="Screenshot 2025-12-25 170411" src="https://github.com/user-attachments/assets/9ad1524f-0ca6-420f-b0f3-d3cb93d55c46" />
 
-<img width="518" height="1060" alt="Screenshot 2025-12-18 195841" src="https://github.com/user-attachments/assets/866758ec-3be0-4fd0-a7d7-63b0c5ae7f62" />
 
-halaman utama sesudah tambah data
+<img width="748" height="1269" alt="Screenshot 2025-12-25 170542" src="https://github.com/user-attachments/assets/c698e2d2-40ff-4cbe-bf69-28ca5a62c6e6" />
 
-<img width="561" height="1043" alt="Screenshot 2025-12-18 195907" src="https://github.com/user-attachments/assets/b35b71cd-e414-4e5e-9bba-4d0731d90c31" />
 
-php/myadmin
+<img width="736" height="1310" alt="Screenshot 2025-12-25 171229" src="https://github.com/user-attachments/assets/5e8df5d0-b15c-4bf4-8a81-1651daa340d9" />
 
-<img width="920" height="200" alt="image" src="https://github.com/user-attachments/assets/10ee9d1f-acc3-420c-a1a0-2ef42d54faad" />
+
+<img width="1057" height="1378" alt="Screenshot 2025-12-25 171302" src="https://github.com/user-attachments/assets/97c41ef8-849a-4c8b-aa26-f2591a2ab96f" />
+
+
+<img width="958" height="248" alt="image" src="https://github.com/user-attachments/assets/309a2414-0784-4626-ada6-4d8cfe8138fb" />
